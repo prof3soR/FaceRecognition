@@ -1,0 +1,205 @@
+<style>
+  /* Style the form container */
+form {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the form inputs */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"] {
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Style the video and capture button */
+#video {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#capture {
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  background-color: #428bca;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#capture:hover {
+  background-color: #3071a9;
+}
+
+#capture.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#capture.disabled:hover {
+  background-color: #ccc;
+}
+
+/* Style the image preview */
+img {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* Style the save button */
+button[type="submit"] {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  background-color: #5cb85c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #4cae4c;
+}
+
+/* Style the form headings */
+.form-heading {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #428bca;
+}
+
+/* Style the form sections */
+.form-section {
+  margin-bottom: 40px;
+}
+
+.form-section-heading {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #428bca;
+  text-transform: uppercase;
+}
+
+/* Style the form buttons */
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.form-buttons button {
+  margin: 0 10px;
+}
+body{
+  background-image: url("https://www.mvgrce.com/sites/default/files/virtualtour.jpg");
+  background-size: cover;
+}
+h1{
+  color: black;
+}
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<center><h1>ADD NEW STUDENT</h1></center>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" class="form-control" id="name" name="name">
+  </div>
+  <div class="form-group">
+    <label for="reg_no">Registration Number:</label>
+    <input type="text" class="form-control" id="reg_no" name="reg_no">
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-6">
+      <label for="dept">Department:</label>
+      <input type="text" class="form-control" id="dept" name="dept">
+    </div>
+    <div class="col-sm-6">
+      <label for="section">Section:</label>
+      <input type="text" class="form-control" id="section" name="section">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="capture">Capture Image:</label>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="capture" type="button" class="btn btn-primary">Capture</button>
+  </div>
+  <input type="hidden" id="Image" name="Image">
+  <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+<script>
+  var video = document.getElementById('video');
+
+  // Get access to the camera and stream video to the video element
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function(stream) {
+      video.srcObject = stream;
+      video.play();
+    })
+    .catch(function(err) {
+      console.log("An error occurred: " + err);
+    });
+
+  // Capture an image from the video stream and display it in the form
+  document.getElementById("capture").addEventListener("click", function() {
+    var canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    var image = canvas.toDataURL("image/jpeg");
+    document.getElementById("capture").innerHTML = "Image Captured";
+    document.getElementById("capture").disabled = true;
+    document.getElementById("capture").classList.remove("btn-primary");
+    document.getElementById("capture").classList.add("btn-success");
+    document.getElementById("capture").classList.add("disabled");
+    document.getElementById("capture").style.cursor = "not-allowed";
+    document.getElementById("capture").style.pointerEvents = "none";
+    document.getElementById("capture").style.opacity = "0.5";
+    document.getElementById("capture").insertAdjacentHTML("afterend", "<img src='" + image + "' width='320' height='240'>");
+    document.getElementById("Image").value = image;
+  });
+</script>

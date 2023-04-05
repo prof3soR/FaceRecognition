@@ -1,0 +1,52 @@
+
+
+<style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 16px;
+      background-image: url("https://www.mvgrce.com/images/slider/cache/e80446cdd09630cab90aede7bc0544cf/mansastrust.jpg");
+      background-size: cover;
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Style the page title */
+    h1 {
+      text-align: center;
+      font-size: 48px;
+      margin-top: 100px;
+      color: #fff;
+      text-shadow: 2px 2px #000;
+    }
+    
+    /* Style the links */
+    a {
+      display: inline-block;
+      font-size: 24px;
+      padding: 20px 40px;
+      margin: 20px 0;
+      text-align: center;
+      text-decoration: none;
+      color: #fff;
+      background-color: #555;
+      border-radius: 50px;
+      border: 2px solid #555;
+      transition: all 0.3s ease;
+    }
+    
+    /* Add hover effect to the links */
+    a:hover {
+      background-color: #fff;
+      color: #555;
+      border: 2px solid #fff;
+      text-shadow: 2px 2px #000;
+    }
+
+
+</style>
+<center>
+<h1>Welcome {{request.user.username}}</h1>
+<a href="{%url 'add_student'%}">Add new student</a>
+<a href="{%url 'add_working_day'%}">Add today as a working day</a>
+<a href="{%url 'add_attendence'%}">Add Attendance</a>
+<a href="{%url 'logout'%}">Logout</a>
+</center>

@@ -1,0 +1,97 @@
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    background-image: url("https://www.mvgrce.com/images/slider/cache/e80446cdd09630cab90aede7bc0544cf/mansastrust.jpg");
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  form {
+    max-width: 500px;
+    margin-top: 13rem;
+    margin-left: 30rem;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .form-outline {
+    position: relative;
+  }
+
+  .form-outline input {
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .form-outline label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 18px;
+    padding: 10px;
+    color: #aaa;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .form-outline input:focus + label,
+  .form-outline input:not(:placeholder-shown) + label {
+    top: -15px;
+    left: 0;
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: 500;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    padding: 10px 20px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background-color: #0069d9;
+  }
+
+
+</style>
+<h1></h1>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+
+<form method="post">
+  {% csrf_token %}
+  <!-- Email input --><h2>Welcome to Online Attendance System <br><br>Please Login </h2>
+  <div class="form-outline mb-4">
+    
+    <input type="text" id="form1Example13" name="username" class="form-control form-control-lg" />
+    <label class="form-label" for="form1Example13">username</label>
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <input type="password" name="password" id="form1Example23" class="form-control form-control-lg" />
+    <label class="form-label" for="form1Example23">Password</label>
+  </div>
+
+  <!-- Submit button -->
+  <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+  <br><br>
+  <a href="{% url "show_attendence" %}">Check student Attendance pecentage</a>
+
+</form>

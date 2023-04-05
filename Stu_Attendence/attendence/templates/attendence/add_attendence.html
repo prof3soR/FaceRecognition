@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Attendance</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+<style>
+    /* Body styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header styles */
+h1 {
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  margin: 30px 0;
+}
+
+/* Video container styles */
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 480px;
+  width: 640px;
+  margin: 0 auto 30px auto;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border-radius: 5px;
+}
+
+/* Video styles */
+video {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Form styles */
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-top: 20px;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+input[type="submit"]:active {
+  background-color: #347e37;
+}
+
+/* Form message styles */
+.message {
+  font-size: 18px;
+  color: #4CAF50;
+  text-align: center;
+  margin-top: 20px;
+}
+body{
+    background-color: rgba(250, 235, 215, 0.77);
+}
+</style>
+<h1>Add Attendance</h1>
+
+<div>
+    <video id="video" width="640" height="480" autoplay></video>
+</div>
+
+<form id="image-form" action="{% url "add_attendence" %}" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    <input type="hidden" id="image-data" name="image-data">
+    <input id="add-attendance" type="submit" value="Submit">
+</form>
+{% if message %}
+    <script>
+        alert('{{ message }}{{stu.name}}');
+    </script>
+{% endif %}
+<script>
+    // Get the video element and set up the camera stream
+    const video = document.getElementById('video');
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    // When the "Add Attendance" button is clicked, take a snapshot of the video and submit it to the server
+    const addAttendanceButton = document.getElementById('add-attendance');
+    addAttendanceButton.addEventListener('click', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/png');
+        $('#image-data').val(imageData);
+        $('#image-form').submit();
+    });
+</script>
+
+</body>
+</html>
